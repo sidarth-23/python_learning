@@ -32,3 +32,4 @@ if user_bet == winner[0]:
 else:
     print(f"You lose, the winner is {winner[0]}")
 screen.exitonclick()
+
