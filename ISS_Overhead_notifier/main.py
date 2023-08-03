@@ -1,8 +1,11 @@
+# Please enter your own user email and app password for the program to run
+# email in USER_EMAIL and password in USER_TOKEN
 import math
 import smtplib
 import requests
 from datetime import datetime
 import time
+import os
 
 MY_LAT = 11.016844
 MY_LONG = 76.955833
@@ -41,6 +44,9 @@ def is_night():
         return True
 
 
+user = os.environ.get('USER_EMAIL')
+password = os.environ.get('USER_TOKEN')
+
 while True:
     time.sleep(60)
     if is_night() and is_iss_overhead():
@@ -48,7 +54,7 @@ while True:
             credentials = file.readlines()
         with smtplib.SMTP("smtp.gmail.com") as connection:
             connection.starttls()
-            connection.login(user=credentials[0], password=credentials[1])
-            connection.sendmail(from_addr=credentials[0], to_addrs="sidarth158@gmail.com",
+            connection.login(user=user, password=password)
+            connection.sendmail(from_addr=user, to_addrs="sidarth158@gmail.com",
                                 msg="Subject:ISS Above you\n\nGo out and enjoy the view")
             connection.close()

@@ -1,6 +1,9 @@
 ##################### Extra Hard Starting Project ######################
-import random
+# Please enter your own email in USER_EMAIL and password in
+# USER_TOKEN
 
+import random
+import os
 import pandas
 import datetime as dt
 import smtplib
@@ -41,15 +44,18 @@ updated_birthday_list = updated_data.to_dict(orient="records")
 
 print(updated_birthday_list)
 
-
 # 4. Send the letter generated in step 3 to that person's email address.
+user = os.environ.get('USER_EMAIL')
+password = os.environ.get('USER_TOKEN')
+
+
 def send_email(to_email, msg, name_temp):
     with open("userinfo.txt", mode="r") as file:
         credentials = file.readlines()
     with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
         connection.starttls()
-        connection.login(user=credentials[0], password=credentials[1])
-        connection.sendmail(from_addr=credentials[0], to_addrs=to_email, msg=f"Subject: Happy birthday {name_temp}\n\n{msg}")
+        connection.login(user=user, password=password)
+        connection.sendmail(from_addr=user, to_addrs=to_email, msg=f"Subject: Happy birthday {name_temp}\n\n{msg}")
         connection.close()
 
 
