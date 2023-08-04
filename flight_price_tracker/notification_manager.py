@@ -1,5 +1,6 @@
 import os
 from twilio.rest import Client
+import smtplib
 
 
 class NotificationManager:
@@ -15,3 +16,12 @@ class NotificationManager:
             to='+918098230245',
             body=msg
         )
+
+    def send_email(self, to_send, msg):
+        user = os.environ.get('EMAIL_ID')
+        password = os.environ.get('EMAIL_PASS')
+        with smtplib.SMTP('smtp.gmail.com', port=587) as connection:
+            connection.starttls()
+            connection.login(user=user, password=password)
+            connection.send_message(from_addr=user, to_addrs=to_send, msg=msg)
+            connection.close()
